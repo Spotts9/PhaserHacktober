@@ -9,8 +9,11 @@ gameScene.preload = function() {
 gameScene.create = function() {
   
   // background
-  this.add.sprite(0, 0, 'background');
-}
+  let bg = this.add.sprite(0, 0, 'background');
+  
+  //change origin to top left of the sprite
+  bg.setOrigin(0,0);
+};
 
 // our game's configuration
 let config = {
