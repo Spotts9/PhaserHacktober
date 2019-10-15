@@ -1,5 +1,19 @@
 // create a new scene named "Game"
 let gameScene = new Phaser.Scene('Game');
+gameScene.preload = function() {
+  // load images
+  this.load.image('background', 'assets/background.png');
+};
+
+// executed once, after assets were loaded
+gameScene.create = function() {
+  
+  // background
+  let bg = this.add.sprite(0, 0, 'background');
+  
+  //change origin to top left of the sprite
+  bg.setOrigin(0,0);
+};
 
 // our game's configuration
 let config = {
