@@ -24,6 +24,20 @@ gameScene.create = function() {
   this.player.setScale(0.5);
 };
 
+gameScene.update = function(){
+    //check for active input   
+    if (this.activePointer.isDown) {
+        //player walks
+        this.player.x += this.playerSpeed;
+    }
+};
+
+gameScene.init = function(){
+    this.playerSpeed=1.5;
+    this.enemyMaxY=280;
+    this.enemyMinY=80;  
+};
+
 // our game's configuration
 let config = {
   type: Phaser.AUTO,  //Phaser will decide how to render our game (WebGL or Canvas)
