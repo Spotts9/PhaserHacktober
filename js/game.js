@@ -26,7 +26,7 @@ gameScene.create = function() {
 
 gameScene.update = function(){
     //check for active input   
-    if (this.activePointer.isDown) {
+    if (this.input.activePointer.isDown) {
         //player walks
         this.player.x += this.playerSpeed;
     }
