@@ -3,6 +3,9 @@ let gameScene = new Phaser.Scene('Game');
 gameScene.preload = function() {
   // load images
   this.load.image('background', 'assets/background.png');
+  this.load.image('player', 'assets/player.png');
+  this.load.image('dragon', 'assets/dragon.png');
+  this.load.image('treasure', 'assets/treasure.png');
 };
 
 // executed once, after assets were loaded
@@ -13,6 +16,12 @@ gameScene.create = function() {
   
   //change origin to top left of the sprite
   bg.setOrigin(0,0);
+  
+  //player
+  this.player = this.add.sprite(40, this.sys.game.config.height / 2,'player');
+  
+  //scale down
+  this.player.setScale(0.5);
 };
 
 // our game's configuration
