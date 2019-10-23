@@ -22,6 +22,10 @@ gameScene.create = function() {
   
   //scale down
   this.player.setScale(0.5);
+  
+  //add goal
+  this.treasure = this.add.sprite(this.sys.game.config.width - 80, this.sys.game.config.height / 2, 'treasure');
+  this.treasure.setScale(0.6);
 };
 
 gameScene.update = function(){
@@ -30,8 +34,19 @@ gameScene.update = function(){
         //player walks
         this.player.x += this.playerSpeed;
     }
+  
+    //treasure collision
+  if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), this.treasure.getBounds())) { 
+    this.gameOver();
+  };
 };
 
+// end the game
+gameScene.gameOver = function() {
+  
+  // restart the scene
+  this.scene.restart();
+}
 gameScene.init = function(){
     this.playerSpeed=1.5;
     this.enemyMaxY=280;
