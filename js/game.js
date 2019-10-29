@@ -69,6 +69,12 @@ gameScene.update = function(){
         } else if (enemies[i].y <= this.enemyMinY && enemies[i].speed < 0) {
             enemies[i].speed *= -1;
         }
+
+        //enemy collision
+        if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), enemies[i].getBounds())) {
+            this.gameOver();
+            break;
+        }
     }
     //treasure collision
   if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), this.treasure.getBounds())) {
