@@ -46,9 +46,19 @@ gameScene.create = function() {
   Phaser.Actions.Call(this.enemies.getChildren(), function(enemy) {
       enemy.speed = Math.random() * 2 + 1;
   }, this);
+
+  //player is alive
+  this.isPlayerAlive=true;
+
+  //reset camera effects
+  this.cameras.main.resetFX();
 };
 
 gameScene.update = function(){
+  //only if player is alive
+  if (!this.isPlayerAlive) {
+    return;
+  }
     //check for active input
     if (this.input.activePointer.isDown) {
         //player walks
@@ -85,9 +95,23 @@ gameScene.update = function(){
 // end the game
 gameScene.gameOver = function() {
 
-  // restart the scene
-  this.scene.restart();
-}
+  //flag to set player is dead
+  this.isPlayerAlive=false;
+
+  //shake the camera
+  this.cameras.main.shake(500);
+
+  //fade camera
+  this.time.delayedCall(250, function() {
+    this.cameras.main.fade(250);
+  }, [], this);
+
+  // restart the game
+  this.time.delayedCall(500, function(){
+    this.scene.restart();
+  }, [], this);
+};
+
 gameScene.init = function(){
     this.playerSpeed=1.5;
     this.enemyMaxY=280;
