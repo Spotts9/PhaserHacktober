@@ -10,19 +10,19 @@ gameScene.preload = function() {
 
 // executed once, after assets were loaded
 gameScene.create = function() {
-  
+
   // background
   let bg = this.add.sprite(0, 0, 'background');
-  
+
   //change origin to top left of the sprite
   bg.setOrigin(0,0);
-  
+
   //player
   this.player = this.add.sprite(40, this.sys.game.config.height / 2,'player');
-  
+
   //scale down
   this.player.setScale(0.5);
-  
+
   //add goal
   this.treasure = this.add.sprite(this.sys.game.config.width - 80, this.sys.game.config.height / 2, 'treasure');
   this.treasure.setScale(0.6);
@@ -41,31 +41,51 @@ gameScene.create = function() {
 
   //scale enemies
   Phaser.Actions.ScaleXY(this.enemies.getChildren(), -0.5, -0.5);
+
+  // set speeds
+  Phaser.Actions.Call(this.enemies.getChildren(), function(enemy) {
+      enemy.speed = Math.random() * 2 + 1;
+  }, this);
 };
 
 gameScene.update = function(){
-    //check for active input   
+    //check for active input
     if (this.input.activePointer.isDown) {
         //player walks
         this.player.x += this.playerSpeed;
     }
-  
+
+    // enemy movement
+    let enemies = this.enemies.getChildren();
+    let numEnemies = enemies.length;
+
+    for (let i = 0; i < numEnemies; i++) {
+
+        // move enemies
+        enemies[i].y += enemies[i].speed
+        // reverse movement if reached the edges
+        if (enemies[i].y >= this.enemyMaxY && enemies[i].speed > 0) {
+            enemies[i].speed *= -1;
+        } else if (enemies[i].y <= this.enemyMinY && enemies[i].speed < 0) {
+            enemies[i].speed *= -1;
+        }
+    }
     //treasure collision
-  if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), this.treasure.getBounds())) { 
+  if (Phaser.Geom.Intersects.RectangleToRectangle(this.player.getBounds(), this.treasure.getBounds())) {
     this.gameOver();
   };
 };
 
 // end the game
 gameScene.gameOver = function() {
-  
+
   // restart the scene
   this.scene.restart();
 }
 gameScene.init = function(){
     this.playerSpeed=1.5;
     this.enemyMaxY=280;
-    this.enemyMinY=80;  
+    this.enemyMinY=80;
 };
 
 // our game's configuration
