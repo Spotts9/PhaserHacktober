@@ -49,6 +49,9 @@ gameScene.create = function() {
 
   //player is alive
   this.isPlayerAlive=true;
+
+  //reset camera effects
+  this.cameras.main.resetFX();
 };
 
 gameScene.update = function(){
@@ -94,15 +97,21 @@ gameScene.gameOver = function() {
 
   //flag to set player is dead
   this.isPlayerAlive=false;
-  
+
   //shake the camera
   this.cameras.main.shake(500);
+
+  //fade camera
+  this.time.delayedCall(250, function() {
+    this.cameras.main.fade(250);
+  }, [], this);
 
   // restart the game
   this.time.delayedCall(500, function(){
     this.scene.restart();
   }, [], this);
-}
+};
+
 gameScene.init = function(){
     this.playerSpeed=1.5;
     this.enemyMaxY=280;
